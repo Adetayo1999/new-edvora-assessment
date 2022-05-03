@@ -10,7 +10,7 @@ import { RideProp } from '../types/ride'
 const Home: NextPage = () => {
   const [user, setUser] = useState({
     name: '',
-    station_code: '',
+    station_code: 0,
     url: '',
   })
   const [, setLoading] = useState(false)
@@ -43,9 +43,19 @@ const Home: NextPage = () => {
       try {
         setRideState((prev) => ({ ...prev, loading: true }))
         const response = await getRides()
+        const ridesWithPosition = response.data.map((ride: RideProp) => {
+          let position = Math.abs(user.station_code - ride.station_path[0])
+          ride.station_path.map((path) => {
+            if (position > Math.abs(user.station_code - path)) {
+              position = Math.abs(user.station_code - path)
+            }
+          })
+          ride.position = position
+          return ride
+        })
         setRideState((prev) => ({
           ...prev,
-          rides: response.data,
+          rides: ridesWithPosition,
           loading: false,
           error: '',
         }))
@@ -59,7 +69,7 @@ const Home: NextPage = () => {
       }
     }
     fetchRides()
-  }, [])
+  }, [user.station_code])
 
   const handleActive = (index: number) => {
     setActive(index)
@@ -112,6 +122,9 @@ const Home: NextPage = () => {
         ) : (
           rideState.rides.length > 0 &&
           rideState.rides
+            .sort((ride1: RideProp, ride2: RideProp) =>
+              ride1.position > ride2.position ? 1 : -1
+            )
             .filter((ride: RideProp) => ride.state.includes(stateFilter))
             .filter((ride: RideProp) => ride.city.includes(cityFilter))
             .filter((ride: RideProp) => {
@@ -131,14 +144,7 @@ const Home: NextPage = () => {
                 origin_station_code,
                 state,
                 station_path,
-              }: {
-                id: number
-                city: string
-                date: string
-                map_url: string
-                station_path: number[]
-                state: string
-                origin_station_code: number
+                position,
               }) => (
                 <Ride
                   key={Math.random() * Date.now()}
@@ -149,6 +155,7 @@ const Home: NextPage = () => {
                   origin_station_code={origin_station_code}
                   state={state}
                   station_path={station_path}
+                  position={position}
                 />
               )
             )

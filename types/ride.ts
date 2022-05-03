@@ -6,4 +6,5 @@ export type RideProp = {
   station_path: number[]
   state: string
   origin_station_code: number
+  position: number
 }

@@ -1,15 +1,5 @@
 import Image from 'next/image'
-
-type RideProp = {
-  id: number
-  city: string
-  date: string
-  map_url: string
-  station_path: number[]
-  state: string
-  origin_station_code: number
-}
-
+import { RideProp } from '../types/ride'
 const Ride = ({
   city,
   map_url,
@@ -18,6 +8,7 @@ const Ride = ({
   id,
   origin_station_code,
   date,
+  position,
 }: RideProp) => {
   return (
     <div className="bg-[#171717] rounded-[0.625rem] text-[#cfcfcf] flex flex-col  md:flex-row justify-between p-5 mb-4">
@@ -52,7 +43,8 @@ const Ride = ({
             Date : <span className="font-medium text-white">{date}</span>
           </p>
           <p className="mb-2">
-            Distance : <span className="font-medium text-white">0</span>
+            Distance :{' '}
+            <span className="font-medium text-white">{position}</span>
           </p>
         </div>
       </div>

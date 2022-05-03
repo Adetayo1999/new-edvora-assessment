@@ -3,7 +3,7 @@ import Image from 'next/image'
 type HeaderProps = {
   user: {
     name: string
-    station_code: string
+    station_code: number
     url: string
   }
 }
