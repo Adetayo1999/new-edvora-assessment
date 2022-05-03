@@ -1,0 +1,48 @@
+.select {
+  background: #232323;
+  border-radius: 4.68775px;
+  padding: 0.7rem 0.9rem;
+  font-size: 14px;
+  cursor: pointer;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-areas: 'select';
+  align-items: center;
+}
+
+.select::after {
+  content: '';
+  width: 0.8em;
+  height: 0.5em;
+  background: #a5a5a5;
+  clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+  justify-self: end;
+}
+
+.select select {
+  color: #ffffff;
+}
+
+.select select option {
+  color: black;
+}
+
+.select:after,
+.select select {
+  grid-area: select;
+}
+
+.standardSelect {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  padding: 0 1em 0 0;
+  margin: 0;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+  outline: none;
+}
